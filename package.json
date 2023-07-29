@@ -20,7 +20,9 @@
     "express-async-errors": "^3.1.1",
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^9.0.1",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^7.3.4",
+    "nodemailer": "^6.9.4",
     "nodemon": "^3.0.1",
     "validator": "^13.9.0"
   }
