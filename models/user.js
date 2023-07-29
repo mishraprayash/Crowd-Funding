@@ -1,7 +1,7 @@
-const mongoose=require('mongoose')
-const  bcrypt=require('bcryptjs')
-const crypto=require('crypto')
-const jwt=require('jsonwebtoken')
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -20,33 +20,35 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Provide password'],
         minlength: 5,
     },
-    role:{
-        type:String,
-        enum:['user','admin'],
-        default:'user',
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user',
     },
-    forgotpassToken:String,
-    forgotTokenExpires:Date,
+    verified: {
+        type: Boolean,
+        default: false
+    },
+    forgotpassToken: String,
+    forgotTokenExpires: Date,
 })
-userSchema.pre('save',async function(next){
-    const salt=await bcrypt.genSalt(10);
-   this.password=await bcrypt.hash(this.password,salt)
-   next()
+userSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt)
+    next()
 })
-userSchema.methods.createJWT=function(){
+userSchema.methods.createJWT = function () {
 
-    return jwt.sign({userId:this._id,name:this.name,role:this.role},process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_LIFETIME,
+    return jwt.sign({ userId: this._id, name: this.name, role: this.role }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_LIFETIME,
     })
-
-
 }
-userSchema.methods.checkPassword=async function(proviededPassword){
- return await bcrypt.compare(proviededPassword,this.password)
+userSchema.methods.checkPassword = async function (proviededPassword) {
+    return await bcrypt.compare(proviededPassword, this.password)
 }
 // userSchema.methods.createResetToken=async function(){
 //     const resetToken= await crypto.randomBytes(16).toString('hex');
-   
+
 //    this.forgotpassToken= crypto.createHash('sha256').update(resetToken).digest('hex')
 //    this.forgotTokenExpires=Date.now()+10*60*1000;
 //    console.log(resetToken,this.forgotpassToken)
@@ -56,4 +58,4 @@ userSchema.methods.checkPassword=async function(proviededPassword){
 
 
 
-module.exports=mongoose.model('User',userSchema)
+module.exports = mongoose.model('User', userSchema)
