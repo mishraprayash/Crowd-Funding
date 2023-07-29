@@ -22,7 +22,6 @@ const register = async (req, res, next) => {
             token: crypto.randomBytes(32).toString("hex")
         }).save()
 
-
         const verificationLink = `${process.env.HOST}/api/v1/auth/verify/${token.userId}/${token.token}`
         const message = `<!DOCTYPE html>
         <html>
@@ -44,7 +43,7 @@ const register = async (req, res, next) => {
           <b><p>Best regards,<br>The Crowd Funding Services Team</p></b>
         </body>
         </html>`
-        const mailInfo = {
+        const mailInfo =  {
             from: `Crowd Funding Services < ${process.env.VERIFICATION_EMAIL_SENDER} >`,
             to: user.email,
             subject: "Verify Your Email Address - Crowd Funding Services",
