@@ -21,8 +21,6 @@ const register = async (req, res, next) => {
             userId: user._id,
             token: crypto.randomBytes(32).toString("hex")
         }).save()
-
-
         const verificationLink = `${process.env.HOST}/api/v1/auth/verify/${token.userId}/${token.token}`
         const message = `<!DOCTYPE html>
         <html>

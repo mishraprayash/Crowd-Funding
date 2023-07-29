@@ -14,7 +14,7 @@ const tokenSchema = new mongoose.Schema({
     expiresAt: {
         type: Date,
         default: function () {
-            return new Date(Date.now() + 10000)
+            return new Date(Date.now() + 20000)
         }
     }
 })
